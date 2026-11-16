@@ -6,7 +6,7 @@ resource "aws_instance" "bastion_vm" {
   associate_public_ip_address = true
   iam_instance_profile = aws_iam_instance_profile.bastionprofile.name
   tags = merge(var.tags, {Name = "${var.project}-${var.environment}-bastion"}, local.common_tags)
-  user_data = file()
+  user_data = file("bastion.sh")
 }
 
 resource "aws_iam_role" "bastionrole" {

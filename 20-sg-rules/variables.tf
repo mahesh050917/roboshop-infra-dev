@@ -9,7 +9,3 @@ variable "environment" {
   default = "dev"
 }
 
-variable "sg_id" {
-  type = string
-}
-

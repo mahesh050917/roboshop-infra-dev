@@ -18,5 +18,5 @@ variable "tags" {
 
 variable "component" {
   type = list 
-  default = "mongodb"
+  default = ["mongodb"]
 }

@@ -54,3 +54,4 @@ data "aws_ssm_parameter" "backend_alb_sg_id" {
 data "http" "my_ip" {
   url = "https://icanhazip.com"
 }
+

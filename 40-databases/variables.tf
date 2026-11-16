@@ -15,3 +15,8 @@ variable "tags" {
   type    = map(any)
   default = {}
 }
+
+variable "component" {
+  type = list 
+  default = "mongodb"
+}

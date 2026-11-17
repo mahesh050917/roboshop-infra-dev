@@ -12,4 +12,7 @@ locals {
     terraform   = true
   }
   roboshop_password = data.aws_ssm_parameter.roboshop_password.value
+  mysql_role_name = join("-",[for name in ["${var.project}","${var.environment}","mysql","role"]:title(name)])
+  mysql_policy_name = join(" ",[for name in ["${var.project}","${var.environment}","mysql","role"]:title(name)])
+  mysql_instance_profile = join("-",[for name in ["${var.project}","${var.environment}","mysql","instance","profile"]:title(name)])
 }

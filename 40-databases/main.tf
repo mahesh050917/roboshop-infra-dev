@@ -3,7 +3,7 @@ resource "aws_instance" "mongodb" {
   instance_type = var.instance_type
   subnet_id = local.db_private_subnet_id
   vpc_security_group_ids = [ local.mongodb_sg_id ]
-  tags = merge(var.tags, {Name = "${var.project}-${var.environment}-mongodb}"}, local.common_tags)
+  tags = merge(var.tags, {Name = "${var.project}-${var.environment}-mongodb"}, local.common_tags)
 }
 
 resource "aws_route53_record" "mongodb_record" {
@@ -43,7 +43,7 @@ resource "aws_instance" "redis" {
   instance_type = var.instance_type
   subnet_id = local.db_private_subnet_id
   vpc_security_group_ids = [ local.redis_sg_id ]
-  tags = merge(var.tags, {Name = "${var.project}-${var.environment}-redis}"}, local.common_tags)
+  tags = merge(var.tags, {Name = "${var.project}-${var.environment}-redis"}, local.common_tags)
 }
 
 resource "aws_route53_record" "redis_record" {
@@ -83,7 +83,8 @@ resource "aws_instance" "mysql" {
   instance_type = var.instance_type
   subnet_id = local.db_private_subnet_id
   vpc_security_group_ids = [ local.mysql_sg_id ]
-  tags = merge(var.tags, {Name = "${var.project}-${var.environment}-mysql}"}, local.common_tags)
+  iam_instance_profile = aws_iam_instance_profile.mysqlinstanceprofile.name
+  tags = merge(var.tags, {Name = "${var.project}-${var.environment}-mysql"}, local.common_tags)
 }
 
 resource "aws_route53_record" "mysql_record" {

@@ -14,6 +14,10 @@ resource "aws_iam_role" "mysqlrole" {
       },
     ]
   })
+  tags_all = merge(
+    { Name = local.mysql_role_name},
+     local.common_tags
+  )
 
 }
 

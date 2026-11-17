@@ -31,5 +31,4 @@ resource "aws_iam_role_policy_attachment" "mysqlroleattach" {
 
 resource "aws_iam_instance_profile" "mysqlinstanceprofile" {
     name = local.mysql_instance_profile
-    role = aws_iam_role_policy_attachment.mysqlrole.name
-}
+    role = aws_iam_role.mysqlrole.name

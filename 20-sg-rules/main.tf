@@ -34,3 +34,12 @@ resource "aws_security_group_rule" "redis_bastion" {
   security_group_id = data.aws_ssm_parameter.redis_sg_id.value
   source_security_group_id = data.aws_ssm_parameter.bastion_sg_id.value
 }
+
+resource "aws_security_group_rule" "mysql_bastion" {
+  type              = "ingress"
+  from_port         = 22
+  to_port           = 22
+  protocol          = "tcp"
+  security_group_id = data.aws_ssm_parameter.mysql_sg_id.value
+  source_security_group_id = data.aws_ssm_parameter.bastion_sg_id.value
+}

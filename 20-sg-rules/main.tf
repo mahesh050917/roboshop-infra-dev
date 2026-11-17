@@ -13,8 +13,8 @@ resource "aws_security_group_rule" "mongodb_bastion" {
   from_port         = 22
   to_port           = 22
   protocol          = "tcp"
-  security_group_id = data.aws_ssm_parameter.bastion_sg_id.value
-  source_security_group_id = data.aws_ssm_parameter.mongodb_sg_id.value
+  security_group_id = data.aws_ssm_parameter.mongodb_sg_id.value
+  source_security_group_id = data.aws_ssm_parameter.bastion_sg_id.value
 }
 
 resource "aws_security_group_rule" "mongodb_catalogue" {
@@ -24,4 +24,13 @@ resource "aws_security_group_rule" "mongodb_catalogue" {
   protocol          = "tcp"
   security_group_id = data.aws_ssm_parameter.catalogue_sg_id.value
   source_security_group_id = data.aws_ssm_parameter.mongodb_sg_id.value
+}
+
+resource "aws_security_group_rule" "redis_bastion" {
+  type              = "ingress"
+  from_port         = 22
+  to_port           = 22
+  protocol          = "tcp"
+  security_group_id = data.aws_ssm_parameter.redis_sg_id.value
+  source_security_group_id = data.aws_ssm_parameter.bastion_sg_id.value
 }

@@ -16,7 +16,3 @@ variable "tags" {
   default = {}
 }
 
-variable "component" {
-  type = list 
-  default = ["mongodb"]
-}

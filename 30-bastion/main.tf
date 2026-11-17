@@ -7,6 +7,12 @@ resource "aws_instance" "bastion_vm" {
   iam_instance_profile = aws_iam_instance_profile.bastionprofile.name
   tags = merge(var.tags, {Name = "${var.project}-${var.environment}-bastion"}, local.common_tags)
   user_data = file("bastion.sh")
+
+  root_block_device {
+     volume_size = 50
+     volume_type = "gp3"
+     
+  }
 }
 
 resource "aws_iam_role" "bastionrole" {

@@ -23,6 +23,14 @@ data "aws_ssm_parameter" "bastion_sg_id" {
   name = "/${var.project}/${var.environment}/bastion_sg_id"
 }
 
+data "aws_ssm_parameter" "redis_sg_id" {
+  name = "/${var.project}/${var.environment}/redis_sg_id"
+}
+
+
+data "aws_ssm_parameter" "mysql_sg_id" {
+  name = "/${var.project}/${var.environment}/mysql_sg_id"
+}
 
 data "aws_ssm_parameter" "db_private_subnet_ids" {
   name        = "/${var.project}/${var.environment}/db_private_subnet_ids"
@@ -36,4 +44,8 @@ data "aws_ssm_parameter" "mongodb_sg_id" {
 data "aws_route53_zone" "daws88s_zone" {
   name         = "daws88s.shop"
   private_zone = false
+}
+
+data "aws_ssm_parameter" "roboshop_password" {
+  name = "/${var.project}/vm_password"
 }

@@ -8,11 +8,11 @@ locals {
    zone_name = data.aws_route53_zone.daws88s_zone.name
    common_tags = {
     project     = var.project
-    environment = var.environment
+    environment = var.env
     terraform   = true
   }
   roboshop_password = data.aws_ssm_parameter.roboshop_password.value
-  mysql_role_name = join("-",[for name in ["${var.project}","${var.environment}","mysql","role"]:title(name)])
-  mysql_policy_name = join("",[for name in ["${var.project}","${var.environment}","mysql","role"]:title(name)])
-  mysql_instance_profile = join("-",[for name in ["${var.project}","${var.environment}","mysql","instance","profile"]:title(name)])
+  mysql_role_name = join("-",[for name in ["${var.project}","${var.env}","mysql","role"]:title(name)])
+  mysql_policy_name = join("",[for name in ["${var.project}","${var.env}","mysql","role"]:title(name)])
+  mysql_instance_profile = join("-",[for name in ["${var.project}","${var.env}","mysql","instance","profile"]:title(name)])
 }

@@ -3,12 +3,12 @@ resource "aws_instance" "mongodb" {
   instance_type = var.instance_type
   subnet_id = local.db_private_subnet_id
   vpc_security_group_ids = [ local.mongodb_sg_id ]
-  tags = merge(var.tags, {Name = "${var.project}-${var.environment}-mongodb"}, local.common_tags)
+  tags = merge(var.tags, {Name = "${var.project}-${var.env}-mongodb"}, local.common_tags)
 }
 
 resource "aws_route53_record" "mongodb_record" {
   zone_id = local.zone_id
-  name    = "mongodb-${var.environment}.${local.zone_name}"     #mongodb-dev.daws88s.shop
+  name    = "mongodb-${var.env}.${local.zone_name}"     #mongodb-dev.daws88s.shop
   type    = "A"
   ttl     = 2
   records = [aws_instance.mongodb.private_ip]
@@ -32,7 +32,7 @@ resource "terraform_data" "mongodb_bootstrap" {
    provisioner "remote-exec" {
       inline = [ 
             "chmod +x /tmp/bootstrap.sh",
-            "sudo sh /tmp/bootstrap.sh mongodb"
+            "sudo sh /tmp/bootstrap.sh mongodb ${var.env}"
        ]
    }
 }
@@ -43,12 +43,12 @@ resource "aws_instance" "redis" {
   instance_type = var.instance_type
   subnet_id = local.db_private_subnet_id
   vpc_security_group_ids = [ local.redis_sg_id ]
-  tags = merge(var.tags, {Name = "${var.project}-${var.environment}-redis"}, local.common_tags)
+  tags = merge(var.tags, {Name = "${var.project}-${var.env}-redis"}, local.common_tags)
 }
 
 resource "aws_route53_record" "redis_record" {
   zone_id = local.zone_id
-  name    = "redis-${var.environment}.${local.zone_name}"     #redis-dev.daws88s.shop
+  name    = "redis-${var.env}.${local.zone_name}"     #redis-dev.daws88s.shop
   type    = "A"
   ttl     = 2
   records = [aws_instance.redis.private_ip]
@@ -72,7 +72,7 @@ resource "terraform_data" "redis_bootstrap" {
    provisioner "remote-exec" {
       inline = [ 
             "chmod +x /tmp/bootstrap.sh",
-            "sudo sh /tmp/bootstrap.sh redis"
+            "sudo sh /tmp/bootstrap.sh redis ${var.env}"
        ]
    }
 }
@@ -84,12 +84,12 @@ resource "aws_instance" "mysql" {
   subnet_id = local.db_private_subnet_id
   vpc_security_group_ids = [ local.mysql_sg_id ]
   iam_instance_profile = aws_iam_instance_profile.mysqlinstanceprofile.name
-  tags = merge(var.tags, {Name = "${var.project}-${var.environment}-mysql"}, local.common_tags)
+  tags = merge(var.tags, {Name = "${var.project}-${var.env}-mysql"}, local.common_tags)
 }
 
 resource "aws_route53_record" "mysql_record" {
   zone_id = local.zone_id
-  name    = "mysql-${var.environment}.${local.zone_name}"     #mysql-dev.daws88s.shop
+  name    = "mysql-${var.env}.${local.zone_name}"     #mysql-dev.daws88s.shop
   type    = "A"
   ttl     = 2
   records = [aws_instance.mysql.private_ip]
@@ -113,7 +113,7 @@ resource "terraform_data" "mysql_bootstrap" {
    provisioner "remote-exec" {
       inline = [ 
             "chmod +x /tmp/bootstrap.sh",
-            "sudo sh /tmp/bootstrap.sh mysql  ${var.environment}"
+            "sudo sh /tmp/bootstrap.sh mysql  ${var.env}"
        ]
    }
 }

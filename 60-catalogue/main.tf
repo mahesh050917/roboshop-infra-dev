@@ -46,91 +46,91 @@ resource "aws_ami_from_instance" "catalogue" {
 }
 
 
-resource "aws_lb_target_group" "catalogue" {
-  name        = "${var.project}-${var.env}-catalogue"
-  target_type = "alb"
-  port        = 8080
-  protocol    = "TCP"
-  vpc_id      = local.vpc_id
-}
+# resource "aws_lb_target_group" "catalogue" {
+#   name        = "${var.project}-${var.env}-catalogue"
+#   target_type = "alb"
+#   port        = 8080
+#   protocol    = "TCP"
+#   vpc_id      = local.vpc_id
+# }
 
 
-resource "aws_lb_target_group_attachment" "catalogue" {
-  target_group_arn = aws_lb_target_group.catalogue.arn
-  target_id        = data.aws_lb.backend_alb.id
+# resource "aws_lb_target_group_attachment" "catalogue" {
+#   target_group_arn = aws_lb_target_group.catalogue.arn
+#   target_id        = data.aws_lb.backend_alb.id
   
-}
+# }
 
-resource "aws_launch_template" "catalogue" {
-  name = "${var.project}-${var.env}-catalogue"
+# resource "aws_launch_template" "catalogue" {
+#   name = "${var.project}-${var.env}-catalogue"
 
-  image_id = aws_ami_from_instance.catalogue.id
-  instance_type = "t2.micro"
-  vpc_security_group_ids = [local.catalogue_sg_id]
-  update_default_version = true 
-  instance_initiated_shutdown_behavior = terminate
-  tag_specifications {
-    resource_type = "instance"
+#   image_id = aws_ami_from_instance.catalogue.id
+#   instance_type = "t2.micro"
+#   vpc_security_group_ids = [local.catalogue_sg_id]
+#   update_default_version = true 
+#   instance_initiated_shutdown_behavior = terminate
+#   tag_specifications {
+#     resource_type = "instance"
 
-    tags = merge( {Name = "${var.project}-${var.env}-catalogue"} , local.common_tags)
+#     tags = merge( {Name = "${var.project}-${var.env}-catalogue"} , local.common_tags)
 
-  }
+#   }
 
-  tag_specifications {
-    resource_type = "volume"
+#   tag_specifications {
+#     resource_type = "volume"
 
-    tags = merge( {Name = "${var.project}-${var.env}-catalogue"} , local.common_tags)
+#     tags = merge( {Name = "${var.project}-${var.env}-catalogue"} , local.common_tags)
 
-  }
+#   }
 
-  tags = merge( {Name = "${var.project}-${var.env}-catalogue"} , local.common_tags)
-}
+#   tags = merge( {Name = "${var.project}-${var.env}-catalogue"} , local.common_tags)
+# }
 
 
-resource "aws_autoscaling_group" "catalogue" {
-  availability_zones = ["us-east-1a"]
-  desired_capacity   = 1
-  max_size           = 10
-  min_size           = 2
+# resource "aws_autoscaling_group" "catalogue" {
+#   availability_zones = ["us-east-1a"]
+#   desired_capacity   = 1
+#   max_size           = 10
+#   min_size           = 2
 
-   instance_refresh {
-    strategy = "Rolling"
-    preferences {
-      min_healthy_percentage = 50
-    }
-    triggers = ["launch_template"]
-  }
+#    instance_refresh {
+#     strategy = "Rolling"
+#     preferences {
+#       min_healthy_percentage = 50
+#     }
+#     triggers = ["launch_template"]
+#   }
 
-  launch_template {
-    id      = aws_launch_template.catalogue.id
-    version = aws_launch_template.catalogue.latest_version
-  }
+#   launch_template {
+#     id      = aws_launch_template.catalogue.id
+#     version = aws_launch_template.catalogue.latest_version
+#   }
 
  
 
-  dynamic "tag" {
-     for_each = merge({Name = "${var.project}-${var.env}-catalogue"} , local.common_tags)
+#   dynamic "tag" {
+#      for_each = merge({Name = "${var.project}-${var.env}-catalogue"} , local.common_tags)
 
-     content {
-        key = tag.key
-        value = tag.value 
-        propagate_at_launch = true
-     }
-  }
-}
+#      content {
+#         key = tag.key
+#         value = tag.value 
+#         propagate_at_launch = true
+#      }
+#   }
+# }
 
 
 
-resource "aws_autoscaling_policy" "catalogue" {
-  autoscaling_group_name = aws_autoscaling_group.catalogue.name
-  name                   = "${var.project}-${var.env}-catalogue"
-  policy_type            = "TargetTrackingScaling"
-  estimated_instance_warmup = 120 
-  target_tracking_configuration {
-    predefined_metric_specification {
-      predefined_metric_type = "ASGAverageCPUUtilization"
-    }
-      target_value = 70.0
-    }
-  }
+# resource "aws_autoscaling_policy" "catalogue" {
+#   autoscaling_group_name = aws_autoscaling_group.catalogue.name
+#   name                   = "${var.project}-${var.env}-catalogue"
+#   policy_type            = "TargetTrackingScaling"
+#   estimated_instance_warmup = 120 
+#   target_tracking_configuration {
+#     predefined_metric_specification {
+#       predefined_metric_type = "ASGAverageCPUUtilization"
+#     }
+#       target_value = 70.0
+#     }
+#   }
   

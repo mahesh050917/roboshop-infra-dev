@@ -3,6 +3,8 @@ locals {
    catalogue_sg_id = data.aws_ssm_parameter.catalogue_sg_id.value
    private_subnet_ids = split(",",data.aws_ssm_parameter.private_subnet_ids.value)
    vpc_id = data.aws_ssm_parameter.vpc_id.value
+   zone_name = data.aws_route53_zone.daws88s_zone.name
+   backend_listener_arn = data.aws
    common_tags = {
     project     = var.project
     environment = var.env

@@ -132,3 +132,17 @@ resource "aws_autoscaling_policy" "catalogue" {
     }
   }
   
+
+  resource "aws_alb_listener_rule" "catalogue" {
+    priority = 10 
+    listener_arn =  
+    action {
+       type = "forward"
+       target_group_arn = aws_lb_target_group.catalogue.arn
+    }
+    condition {
+       host_header {
+          values = ["catalogue.backend-alb-${var.env}.${local.zone_name}"]
+       }
+    }
+  }

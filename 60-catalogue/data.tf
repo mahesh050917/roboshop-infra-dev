@@ -45,3 +45,13 @@ data "aws_ssm_parameter" "vpc_id" {
 data "aws_lb" "backend_alb" {
   name               = "${var.project}-backend-${var.env}-alb"
 }
+
+data "aws_route53_zone" "daws88s_zone" {
+  name         = "daws88s.shop"
+  private_zone = false
+}
+
+data"aws_ssm_parameter" "backend_listener_arn" {
+  name        = "/${var.project}/${var.env}/backend_listener_arn"
+
+}

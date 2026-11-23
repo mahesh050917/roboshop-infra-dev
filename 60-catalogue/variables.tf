@@ -15,3 +15,7 @@ variable "tags" {
   type    = map(any)
   default = {}
 }
+
+variable "app_version" {
+  default = v3
+}

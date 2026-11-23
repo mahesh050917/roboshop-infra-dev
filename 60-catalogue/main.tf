@@ -94,6 +94,10 @@ resource "aws_autoscaling_group" "catalogue" {
     triggers = ["launch_template"]
   }
 
+  timeouts {
+    delete = "15m"
+  }
+
   launch_template {
     id      = aws_launch_template.catalogue.id
     version = aws_launch_template.catalogue.latest_version

@@ -135,7 +135,7 @@ resource "aws_autoscaling_policy" "catalogue" {
 
   resource "aws_alb_listener_rule" "catalogue" {
     priority = 10 
-    listener_arn =  
+    listener_arn =  local.backend_listener_arn
     action {
        type = "forward"
        target_group_arn = aws_lb_target_group.catalogue.arn

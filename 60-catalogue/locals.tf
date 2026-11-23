@@ -4,7 +4,7 @@ locals {
    private_subnet_ids = split(",",data.aws_ssm_parameter.private_subnet_ids.value)
    vpc_id = data.aws_ssm_parameter.vpc_id.value
    zone_name = data.aws_route53_zone.daws88s_zone.name
-   backend_listener_arn = data.aws
+   backend_listener_arn = data.aws_ssm_parameter.backend_listener_arn.arn
    common_tags = {
     project     = var.project
     environment = var.env

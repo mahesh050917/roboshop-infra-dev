@@ -93,7 +93,7 @@ resource "aws_autoscaling_group" "catalogue" {
   vpc_zone_identifier = local.private_subnet_ids
   desired_capacity   = 2
   max_size           = 10
-  min_size           = 1
+  min_size           = 2
    instance_refresh {
     strategy = "Rolling"
     preferences {
@@ -153,4 +153,13 @@ resource "aws_autoscaling_policy" "catalogue" {
           values = ["catalogue.backend-alb-${var.env}.${local.zone_name}"]
        }
     }
+  }
+
+  resource "terraform_data" "catalogue_delete" {
+     depends_on = [ aws_autoscaling_policy.catalogue ]
+     triggers_replace = [ aws_instance.catalogue.id ]
+
+     provisioner "local-exec" {
+         command = "aws ec2 terminate-instances --instance-ids ${aws_instance.catalogue.id}"
+     }
   }

@@ -55,16 +55,9 @@ resource "aws_lb_target_group" "catalogue" {
 }
 
 
-resource "aws_lb_target_group_attachment" "catalogue" {
-  target_group_arn = aws_lb_target_group.catalogue.arn
-  target_id        = data.aws_lb.backend_alb.id
-  port = 8080
-  
-}
-
 resource "aws_launch_template" "catalogue" {
   name = "${var.project}-${var.env}-catalogue"
-
+  
   image_id = aws_ami_from_instance.catalogue.id
   instance_type = "t2.micro"
   vpc_security_group_ids = [local.catalogue_sg_id]
@@ -105,6 +98,7 @@ resource "aws_autoscaling_group" "catalogue" {
     id      = aws_launch_template.catalogue.id
     version = aws_launch_template.catalogue.latest_version
   }
+  target_group_arns = [ aws_lb_target_group.catalogue.arn ]
 
  
 

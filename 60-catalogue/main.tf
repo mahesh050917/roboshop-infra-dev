@@ -57,7 +57,6 @@ resource "aws_lb_target_group" "catalogue" {
 
 resource "aws_launch_template" "catalogue" {
   name = "${var.project}-${var.env}-catalogue"
-  
   image_id = aws_ami_from_instance.catalogue.id
   instance_type = "t2.micro"
   vpc_security_group_ids = [local.catalogue_sg_id]
@@ -83,6 +82,7 @@ resource "aws_launch_template" "catalogue" {
 
 resource "aws_autoscaling_group" "catalogue" {
   availability_zones = ["us-east-1a"]
+  vpc_zone_identifier = [ local.private_subnet_ids ]
   desired_capacity   = 2
   max_size           = 10
   min_size           = 1

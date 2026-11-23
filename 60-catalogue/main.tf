@@ -50,7 +50,7 @@ resource "aws_lb_target_group" "catalogue" {
   name        = "${var.project}-${var.env}-catalogue"
   target_type = "instance"
   port        = 8080
-  protocol    = "TCP"
+  protocol    = "HTTP"
   vpc_id      = local.vpc_id
 }
 

@@ -81,6 +81,7 @@ resource "aws_launch_template" "catalogue" {
 
 
 resource "aws_autoscaling_group" "catalogue" {
+  name = "${var.project}-${var.env}-catalogue"
   vpc_zone_identifier = local.private_subnet_ids
   desired_capacity   = 2
   max_size           = 10

@@ -1,7 +1,7 @@
 resource "aws_instance" "catalogue" {
   ami           = local.ami_id
   instance_type = var.instance_type
-  subnet_id = local.private_subnet_ids
+  subnet_id = local.private_subnet_ids[0]
   vpc_security_group_ids = [ local.catalogue_sg_id ]
   tags = merge(var.tags, {Name = "${var.project}-${var.env}-catalogue"}, local.common_tags)
 
@@ -81,7 +81,6 @@ resource "aws_launch_template" "catalogue" {
 
 
 resource "aws_autoscaling_group" "catalogue" {
-  availability_zones = ["us-east-1a"]
   vpc_zone_identifier = [ local.private_subnet_ids ]
   desired_capacity   = 2
   max_size           = 10

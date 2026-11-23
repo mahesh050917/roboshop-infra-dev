@@ -58,6 +58,7 @@ resource "aws_lb_target_group" "catalogue" {
 resource "aws_lb_target_group_attachment" "catalogue" {
   target_group_arn = aws_lb_target_group.catalogue.arn
   target_id        = data.aws_lb.backend_alb.id
+  port = 8080
   
 }
 
@@ -92,7 +93,6 @@ resource "aws_autoscaling_group" "catalogue" {
   desired_capacity   = 2
   max_size           = 10
   min_size           = 1
-
    instance_refresh {
     strategy = "Rolling"
     preferences {

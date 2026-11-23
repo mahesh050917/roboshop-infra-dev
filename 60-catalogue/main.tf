@@ -52,6 +52,13 @@ resource "aws_lb_target_group" "catalogue" {
   port        = 8080
   protocol    = "HTTP"
   vpc_id      = local.vpc_id
+  health_check {
+    path = "/health" 
+    healthy_threshold = 2 
+    unhealthy_threshold = 2
+    interval = 15 
+    matcher = "200-299"
+  }
 }
 
 

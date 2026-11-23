@@ -89,9 +89,9 @@ resource "aws_launch_template" "catalogue" {
 
 resource "aws_autoscaling_group" "catalogue" {
   availability_zones = ["us-east-1a"]
-  desired_capacity   = 1
+  desired_capacity   = 2
   max_size           = 10
-  min_size           = 2
+  min_size           = 1
 
    instance_refresh {
     strategy = "Rolling"

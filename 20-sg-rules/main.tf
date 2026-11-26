@@ -72,3 +72,12 @@ resource "aws_security_group_rule" "catalogue_backend_alb" {
   security_group_id = data.aws_ssm_parameter.catalogue_sg_id.value
   source_security_group_id = data.aws_ssm_parameter.backend_alb_sg_id.value
 }
+
+resource "aws_security_group_rule" "frontend_alb_internet" {
+  type              = "ingress"
+  from_port         = 443
+  to_port           = 443
+  protocol          = "tcp"
+  security_group_id = data.aws_ssm_parameter.frontend_alb_sg_id.value
+  cidr_blocks = [ "0.0.0.0/0" ]
+}

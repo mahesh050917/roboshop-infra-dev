@@ -29,7 +29,7 @@ resource "aws_lb_listener" "frontend_alb_listener" {
 
 resource "aws_route53_record" "frontend_alb_record" {
   zone_id = local.zone_id
-  name    = "frontend-alb-dev.${local.zone_name}"   # frontend-alb-dev.daws88s.shop
+  name    = "frontend-${var.env}.${local.zone_name}"   # frontend-dev.daws88s.shop
   type = "A"
   alias {
      name =   aws_lb.frontend_alb.dns_name

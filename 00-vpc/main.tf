@@ -3,5 +3,5 @@ module "vpc" {
    cidr_block = "10.0.0.0/16"
    environment = "dev"
    project = "roboshop"
-   is_peering_required = true
+   is_peering_required = false
 }

@@ -129,7 +129,7 @@ resource "aws_instance" "rabbitmq" {
 
 resource "aws_route53_record" "rabbitmq_record" {
   zone_id = local.zone_id
-  name    = "redis-${var.env}.${local.zone_name}"     #rabbitmq-dev.daws88s.shop
+  name    = "rabbitmq-${var.env}.${local.zone_name}"     #rabbitmq-dev.daws88s.shop
   type    = "A"
   ttl     = 2
   records = [aws_instance.rabbitmq.private_ip]

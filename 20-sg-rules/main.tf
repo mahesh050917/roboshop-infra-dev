@@ -243,30 +243,14 @@ resource "aws_security_group_rule" "backend_alb_payment" {
   source_security_group_id = data.aws_ssm_parameter.payment_sg_id.value
 }
 
-
-resource "aws_security_group_rule" "bastion_internet" {
+resource "aws_security_group_rule" "backend_alb_frontend" {
   type              = "ingress"
-  from_port         = 22
-  to_port           = 22
+  from_port         = 80
+  to_port           = 80
   protocol          = "tcp"
-  cidr_blocks       = ["${local.my_ip}/32"]
-  security_group_id = data.aws_ssm_parameter.bastion_sg_id.value
+  security_group_id = data.aws_ssm_parameter.backend_alb_sg_id.value
+  source_security_group_id = data.aws_ssm_parameter.frontend_sg_id.value
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 resource "aws_security_group_rule" "frontend_alb_internet" {
@@ -279,14 +263,7 @@ resource "aws_security_group_rule" "frontend_alb_internet" {
   
 }
 
-resource "aws_security_group_rule" "frontend_bastion" {
-  type              = "ingress"
-  from_port         = 22
-  to_port           = 22
-  protocol          = "tcp"
-  security_group_id = data.aws_ssm_parameter.frontend_sg_id.value
-  source_security_group_id = data.aws_ssm_parameter.bastion_sg_id.value
-}
+
 
 resource "aws_security_group_rule" "frontend_frontend_alb" {
   type              = "ingress"
@@ -299,12 +276,37 @@ resource "aws_security_group_rule" "frontend_frontend_alb" {
 
 
 
-resource "aws_security_group_rule" "backend_alb_frontend" {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+resource "aws_security_group_rule" "frontend_bastion" {
   type              = "ingress"
-  from_port         = 80
-  to_port           = 80
+  from_port         = 22
+  to_port           = 22
   protocol          = "tcp"
-  security_group_id = data.aws_ssm_parameter.backend_alb_sg_id.value
-  source_security_group_id = data.aws_ssm_parameter.frontend_sg_id.value
+  security_group_id = data.aws_ssm_parameter.frontend_sg_id.value
+  source_security_group_id = data.aws_ssm_parameter.bastion_sg_id.value
 }
+
+
+
+
+
+
 

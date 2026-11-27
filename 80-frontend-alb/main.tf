@@ -37,3 +37,15 @@ resource "aws_route53_record" "frontend_alb_record" {
      zone_id = aws_lb.frontend_alb.zone_id
   }
 }
+
+resource "aws_route53_record" "frontend" {
+  zone_id = local.zone_id
+  name    = "fronted-dev.daws88s.shop"
+  type    = "A"
+
+  alias {
+    name                   = aws_lb.frontend_alb.dns_name
+    zone_id                = aws_lb.frontend_alb.zone_id
+    evaluate_target_health = true
+  }
+}
